@@ -23,11 +23,10 @@ end
 
 At_shifted_images= shifted_images';
 
-B = reshape(mean_face,[112,92]);
-bm=uint8(B);
-imwrite(bm,'mean.pgm');
-figure
-imshow('mean.pgm');
+
+mean_face_img = reshape(mean_face,[112,92]);
+imshow(mean_face_img);
+% immm= uint8(mean_face);
 % covaience_matrix= shifted_images* At_shifted_images;
 
 
