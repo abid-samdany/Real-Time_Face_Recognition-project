@@ -1,6 +1,6 @@
 % Load train image directory
 input_dir = 'G:\Test\face_database\';
-image_dims =[120, 104];
+image_dims =[112, 92];
 
 filenames = dir(fullfile(input_dir, '*.pgm'));
 num_images = length(filenames);
@@ -70,7 +70,7 @@ title(sprintf('matches %s, score %f', filenames(match_index).name, match_score))
 % figure;
 % for n = 1:num_eigenfaces
 % subplot(2, ceil(num_eigenfaces/2), n);
-% eig_vect = reshape(evec_ui(:,n), [112, 92]);
+% eig_vect = reshape(evec_ui(:,n), image_dims);
 % imagesc(eig_vect);
 % colormap(gray); 
 % end
