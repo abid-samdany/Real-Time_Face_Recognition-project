@@ -1,8 +1,8 @@
 % Load train image directory
-input_dir = 'G:\project-work\workspace-project\ATT\';
+input_dir = 'C:\Users\MyPC\Desktop\imageset\Stirlings\';
 image_dims =[112, 92];
 
-filenames = dir(fullfile(input_dir, '*.png'));
+filenames = dir(fullfile(input_dir, '*.gif'));
 num_images = length(filenames);
 images = []; 
 
@@ -41,9 +41,37 @@ evec_ui = evec_ui(:, 1:num_eigenfaces);
 weights = evec_ui' * image_diff;
 
 %%
+% test_dir = 'C:\Users\MyPC\Desktop\imageset\stirling-test\';
+% image_dims =[112, 92];
+% 
+% files = dir(fullfile(test_dir, '*.gif'));
+% test_imgs = length(files);
+% 
+% for n = 1:test_imgs
+%     tfile = fullfile(test_dir, files(n).name);
+%     img = imread(tfile);
+%     input_img = imresize(img,image_dims);
+%     input_img = im2double(input_img);
+%     input_img_diff= input_img(:)- mean_face;
+%     input_image_weight= evec_ui' * input_img_diff;
+%     
+%     
+%     for i=1:num_images
+%         distance(:,i)= norm(input_image_weight - weights(:,i));
+%     end
+%     
+%     [match_score, match_index] = min(distance);
+%     
+%     figure();
+%     imshow([input_img ,reshape(images(:,match_index), image_dims)]);
+%     title(sprintf('matches %s, score %f', filenames(match_index).name, match_score));
+% 
+% 
+% end
+
 
 % input image for test
-[file, path]= uigetfile({'*.png'},'Select test image');
+[file, path]= uigetfile({'*.gif'},'Select test image');
 fullpath=strcat(path, file);
 input_img= imread(fullpath);
 input_img = imresize(input_img,image_dims);
@@ -62,12 +90,12 @@ end
 [match_score, match_index] = min(distance);
 
 % display the result
-figure();
-imshow([input_img ,reshape(images(:,match_index), image_dims)]);
-title(sprintf('matches %s, score %f', filenames(match_index).name, match_score));
+% figure();
+% imshow([input_img ,reshape(images(:,match_index), image_dims)]);
+% title(sprintf('matches %s, score %f', filenames(match_index).name, match_score));
 
 
-%%
+
 %  % display the eigenvectors
 % 
 % figure
@@ -77,10 +105,28 @@ title(sprintf('matches %s, score %f', filenames(match_index).name, match_score))
 % imagesc(eig_vect);
 % colormap(gray); 
 % end
-% 
-% %%
-%  % display the eigenvalues
-% normalised_evalues = eig_val / sum(eig_val);
+
+%%
+ % display the eigenvalues
+normalised_evalues = eig_val / sum(eig_val);
 % figure, plot(cumsum(normalised_evalues));
 % xlabel('No. of eigenvectors'), ylabel('Variance accounted for');
 % xlim([1 30]), ylim([0 1]), grid on;
+
+thres=[];
+variance=0;
+c=0;
+unit=1;
+for q = 1:length(normalised_evalues)
+    ggg=normalised_evalues(q,1);
+    
+%     if ggg>.01
+%         thres(q,:)=ggg;
+%     end
+    if variance<.95
+        variance=variance+ggg;
+        c=c+unit;
+    end
+    
+    
+end
