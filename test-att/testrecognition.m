@@ -31,11 +31,28 @@ image_diff_tr= image_diff';
 L = image_diff_tr * image_diff;
 % eigen vector and value computation using Principle Component Analysis 
 [eig_vec, score, eig_val] = pca(L);
+%normalized eigenvalues indicating the variance
+normalised_evalues = eig_val / sum(eig_val);
 % Large dimension eigen vector
 evec_ui= image_diff *eig_vec;
 % we set the no. of eigenface=10
-num_eigenfaces = 8;
-evec_ui = evec_ui(:, 1:num_eigenfaces);
+thres=[];
+variance=0;
+K_best_eigenvectors=0;
+unit=1;
+for q = 1:length(normalised_evalues)
+    ggg=normalised_evalues(q,1);
+    
+%     if ggg>.01
+%         thres(q,:)=ggg;
+%     end
+    if variance<.91
+        variance=variance+ggg;
+        K_best_eigenvectors=K_best_eigenvectors+unit;
+    end    
+end
+% num_eigenfaces = 8;
+evec_ui = evec_ui(:, 1:K_best_eigenvectors);
 
 % weight/ the feature vector calculation
 weights = evec_ui' * image_diff;
@@ -89,10 +106,10 @@ end
 % match image score and it's index
 [match_score, match_index] = min(distance);
 
-% display the result
-% figure();
-% imshow([input_img ,reshape(images(:,match_index), image_dims)]);
-% title(sprintf('matches %s, score %f', filenames(match_index).name, match_score));
+display the result
+figure();
+imshow([input_img ,reshape(images(:,match_index), image_dims)]);
+title(sprintf('matches %s, score %f', filenames(match_index).name, match_score));
 
 
 
@@ -113,20 +130,3 @@ normalised_evalues = eig_val / sum(eig_val);
 % xlabel('No. of eigenvectors'), ylabel('Variance accounted for');
 % xlim([1 30]), ylim([0 1]), grid on;
 
-thres=[];
-variance=0;
-c=0;
-unit=1;
-for q = 1:length(normalised_evalues)
-    ggg=normalised_evalues(q,1);
-    
-%     if ggg>.01
-%         thres(q,:)=ggg;
-%     end
-    if variance<.95
-        variance=variance+ggg;
-        c=c+unit;
-    end
-    
-    
-end
