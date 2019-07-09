@@ -1,3 +1,5 @@
+**This Project is on detecting face from image and recognize the face of the person. This face recognition system is built on basis of the Principle Component Analysis (PCA) technique.**
+
 **Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
 
 When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
